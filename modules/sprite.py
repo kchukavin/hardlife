@@ -1,6 +1,6 @@
 import pygame
 
-import modules.constants as constants
+from modules.constants import *
 from modules.object import Object
 
 class Sprite(pygame.sprite.Sprite):
@@ -8,8 +8,8 @@ class Sprite(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.object = object
 
-        self.image = pygame.Surface((constants.CELL_WIDTH, constants.CELL_HEIGHT))
-        self.image.set_colorkey(constants.BLACK)
+        self.image = pygame.Surface((CELL_WIDTH, CELL_HEIGHT))
+        self.image.set_colorkey(BLACK)
         pygame.draw.rect(self.image, self.object.color, self.image.get_rect(), 2)
         self.rect = self.image.get_rect()
 
@@ -19,4 +19,4 @@ class Sprite(pygame.sprite.Sprite):
         self.update_position()
     
     def update_position(self):
-        self.rect.topleft = (self.object.x * constants.CELL_WIDTH, self.object.y * constants.CELL_HEIGHT)
+        self.rect.topleft = (self.object.x * CELL_WIDTH, self.object.y * CELL_HEIGHT)

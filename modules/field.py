@@ -1,6 +1,6 @@
 import random
 
-import modules.constants as constants
+from modules.constants import *
 import modules.direction as direction
 from .object import Object
 
@@ -9,9 +9,9 @@ class Field:
     def __init__(self):
         self.field = []
         self.objects = []
-        for y in range(constants.FIELD_HEIGHT):
+        for y in range(FIELD_HEIGHT):
             self.field.append([])
-            for x in range(constants.FIELD_WIDTH):
+            for x in range(FIELD_WIDTH):
                 self.field[y].append([])
 
     def add_object(self, object: Object) -> None:
@@ -43,11 +43,11 @@ class Field:
     def is_free(self, x: int, y: int, dir: int = direction.DIRECTION_NONE) -> bool:
         new_x = direction.get_new_x(x, dir)
         new_y = direction.get_new_y(y, dir)
-        if (new_x < 0 or new_x >= constants.FIELD_WIDTH
-                or new_y < 0 or new_y >= constants.FIELD_HEIGHT):
+        if (new_x < 0 or new_x >= FIELD_WIDTH
+                or new_y < 0 or new_y >= FIELD_HEIGHT):
             return False
 
-        if self.is_cell_has_type(new_x, new_y, constants.TYPE_WALL):
+        if self.is_cell_has_type(new_x, new_y, TYPE_WALL):
             return False
 
         return True

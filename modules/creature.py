@@ -1,15 +1,15 @@
 import random
 
 from modules.object import Object
-import modules.constants as constants
+from modules.constants import *
 import modules.direction as direction
 import modules.field as Field
 
 
 class Creature(Object):
-    type = constants.TYPE_CREATURE
+    type = TYPE_CREATURE
 
-    def __init__(self, field: Field, x: int = 0, y: int = 0, color: tuple = constants.RED):
+    def __init__(self, field: Field, x: int = 0, y: int = 0, color: tuple = RED):
         super().__init__(x, y, color)
         self.field = field
         self.desire_to_move = None
@@ -26,4 +26,7 @@ class Creature(Object):
             self.move(dir)
 
     def make_move(self):
+        self.hp -= 1
+        if self.hp <= 0:
+            self.field.remove_object(self)
         self.try_to_move(random.choice(direction.ALL_DIRECTIONS))

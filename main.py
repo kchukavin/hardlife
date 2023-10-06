@@ -2,7 +2,7 @@
 
 import pygame
 
-import modules.constants as constants
+from modules.constants import *
 import modules.direction as direction
 from modules.field import Field
 from modules.generator import Generator
@@ -12,24 +12,20 @@ from modules.sprite import Sprite
 pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode(
-    (constants.FIELD_WIDTH * constants.CELL_WIDTH, constants.FIELD_HEIGHT * constants.CELL_HEIGHT))
+    (FIELD_WIDTH * CELL_WIDTH, FIELD_HEIGHT * CELL_HEIGHT))
 pygame.display.set_caption("Hard life")
 clock = pygame.time.Clock()
-
-all_sprites = pygame.sprite.Group()
 
 field = Field()
 generator = Generator(field)
 generator.generate_walls(100)
 generator.generate_food(50)
 generator.generate_creatures(20)
-player = Player(field, 0, 0, constants.BLUE)
+player = Player(field, 0, 0, BLUE)
 field.add_object(player)
 
-objects = field.get_objects()
-
-sprites = []
-for object in objects:
+all_sprites = pygame.sprite.Group()
+for object in field.get_objects():
     all_sprites.add(Sprite(object))
 
 last_turn_time = pygame.time.get_ticks()
@@ -39,7 +35,7 @@ player_direction = direction.DIRECTION_NONE
 running = True
 while running:
     # Держим цикл на правильной скорости
-    clock.tick(constants.FPS)
+    clock.tick(FPS)
     # Ввод процесса (события)
     for event in pygame.event.get():
 
@@ -72,16 +68,21 @@ while running:
         player.want_to_move_to(player_direction)
 
     current_time = pygame.time.get_ticks()
-    if current_time - last_turn_time > 1000 / constants.TPS:
-        last_turn_time = current_time
-        for object in objects:
+    if current_time - last_turn_time > 1000 / TPS:
+        for object in field.get_objects():
             object.make_move()
+
+        all_sprites.empty()
+        for object in field.get_objects():
+            all_sprites.add(Sprite(object))
+
+        last_turn_time = current_time
 
     # Обновление
     all_sprites.update()
 
     # Рендеринг
-    screen.fill(constants.BLACK)
+    screen.fill(BLACK)
     all_sprites.draw(screen)
     # После отрисовки всего, переворачиваем экран
     pygame.display.flip()

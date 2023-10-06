@@ -1,9 +1,9 @@
 from modules.creature import Creature
-import modules.constants as constants
+from modules.constants import *
 import modules.field as Field
 
 class Player(Creature):
-    def __init__(self, field: Field, x: int=0, y: int=0, color: tuple=constants.WHITE):
+    def __init__(self, field: Field, x: int=0, y: int=0, color: tuple=WHITE):
         super().__init__(field, x, y, color)
         self.desire_to_move = None
 
