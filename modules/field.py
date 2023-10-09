@@ -14,16 +14,13 @@ class Field:
             for x in range(FIELD_WIDTH):
                 self.field[y].append([])
 
-    def add_object(self, object: Object) -> None:
+    def add_object(self, object:Object) -> None:
         x = object.x
         y = object.y
         self.objects.append(object)
         self.field[y][x].append(object)
 
-    def add_objects(self, objects: list) -> None:
-        self.objects += objects
-
-    def remove_object(self, object: Object) -> None:
+    def remove_object(self, object:Object) -> None:
         x = object.x
         y = object.y
         if self.field[y][x].count(object):
@@ -31,7 +28,7 @@ class Field:
         if self.objects.count(object):
             self.objects.remove(object)
 
-    def move_object(self, object: Object, new_x: int, new_y: int) -> None:
+    def move_object(self, object:Object, new_x:int, new_y:int) -> None:
         x = object.x
         y = object.y
         if self.field[y][x].count(object):
@@ -40,7 +37,7 @@ class Field:
         object.y = new_y
         self.field[new_y][new_x].append(object)
 
-    def is_free(self, x: int, y: int, dir: int = direction.DIRECTION_NONE) -> bool:
+    def is_free(self, x:int, y:int, dir:int=direction.DIRECTION_NONE) -> bool:
         new_x = direction.get_new_x(x, dir)
         new_y = direction.get_new_y(y, dir)
         if (new_x < 0 or new_x >= FIELD_WIDTH
@@ -52,14 +49,17 @@ class Field:
 
         return True
 
-    def is_cell_has_type(self, x: int, y: int, type: int) -> bool:
+    def find_object_by_type(self, x:int, y:int, type:int) -> Object:
         for object in self.get_cell_content(x, y):
             if object.type == type:
-                return True
+                return object
 
-        return False
+        return None
 
-    def get_cell_content(self, x: int, y: int) -> list:
+    def is_cell_has_type(self, x:int, y:int, type:int) -> bool:
+        return bool(self.find_object_by_type(x, y, type))
+
+    def get_cell_content(self, x:int, y:int) -> list:
         return self.field[y][x]
 
     def get_objects(self) -> list:

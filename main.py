@@ -70,7 +70,7 @@ while running:
     current_time = pygame.time.get_ticks()
     if current_time - last_turn_time > 1000 / TPS:
         for object in field.get_objects():
-            object.make_move()
+            object.make_turn()
 
         all_sprites.empty()
         for object in field.get_objects():

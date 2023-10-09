@@ -10,8 +10,7 @@ class Creature(Object):
     type = TYPE_CREATURE
 
     def __init__(self, field: Field, x: int = 0, y: int = 0, color: tuple = RED):
-        super().__init__(x, y, color)
-        self.field = field
+        super().__init__(field, x, y, color)
         self.desire_to_move = None
 
     def move(self, dir: int):
@@ -25,8 +24,16 @@ class Creature(Object):
         if self.field.is_free(self.x, self.y, dir):
             self.move(dir)
 
-    def make_move(self):
+    def try_to_eat(self):
+        food = self.field.find_object_by_type(self.x, self.y, TYPE_FOOD)
+        if food:
+            self.hp += food.hp
+            food.hp = 0
+
+    def make_turn(self):
+        super().make_turn()
+        self.try_to_eat()
         self.hp -= 1
-        if self.hp <= 0:
-            self.field.remove_object(self)
+
+    def make_move(self):
         self.try_to_move(random.choice(direction.ALL_DIRECTIONS))
