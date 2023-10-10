@@ -1,5 +1,6 @@
 FPS = 30  # Frame per second
 TPS = 5  # Turn per second
+FOOD_SPAWN_PERIOD = 10 # Turns
 
 # Field
 FIELD_WIDTH = 50

@@ -30,9 +30,25 @@ class Creature(Object):
             self.hp += food.hp
             food.hp = 0
 
+    def try_to_reproduce(self) -> None:
+        if self.hp <= 50:
+            return
+
+        subject = self.field.find_object_by_type(self.x, self.y, TYPE_CREATURE)
+
+        if not subject or subject == self or subject.hp <= 50:
+            return
+
+        self.hp -= 20
+        subject.hp -= 20
+        new_creature = Creature(self.field, self.x, self.y)
+        new_creature.hp = 50
+        self.field.add_object(new_creature)
+
     def make_turn(self):
         super().make_turn()
         self.try_to_eat()
+        self.try_to_reproduce()
         self.hp -= 1
 
     def make_move(self):

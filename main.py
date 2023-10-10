@@ -32,6 +32,7 @@ last_turn_time = pygame.time.get_ticks()
 
 # Цикл игры
 player_direction = direction.DIRECTION_NONE
+turn = 0
 running = True
 while running:
     # Держим цикл на правильной скорости
@@ -69,6 +70,10 @@ while running:
 
     current_time = pygame.time.get_ticks()
     if current_time - last_turn_time > 1000 / TPS:
+        turn += 1
+        if not turn % FOOD_SPAWN_PERIOD:
+            generator.generate_food(1)
+
         for object in field.get_objects():
             object.make_turn()
 
