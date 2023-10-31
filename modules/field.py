@@ -27,6 +27,7 @@ class Field:
             self.field[y][x].remove(object)
         if self.objects.count(object):
             self.objects.remove(object)
+            del object
 
     def move_object(self, object:Object, new_x:int, new_y:int) -> None:
         x = object.x
@@ -37,6 +38,9 @@ class Field:
         object.y = new_y
         self.field[new_y][new_x].append(object)
 
+    def is_empty(self, x:int, y:int) -> bool:
+        return not bool(self.get_cell_content(x, y))
+
     def is_free(self, x:int, y:int, dir:int=direction.DIRECTION_NONE) -> bool:
         new_x = direction.get_new_x(x, dir)
         new_y = direction.get_new_y(y, dir)
@@ -44,7 +48,7 @@ class Field:
                 or new_y < 0 or new_y >= FIELD_HEIGHT):
             return False
 
-        if self.is_cell_has_type(new_x, new_y, TYPE_WALL):
+        if self.is_cell_has_type(new_x, new_y, TYPE_WALL) or self.is_cell_has_type(new_x, new_y, TYPE_CREATURE):
             return False
 
         return True
@@ -60,6 +64,9 @@ class Field:
         return bool(self.find_object_by_type(x, y, type))
 
     def get_cell_content(self, x:int, y:int) -> list:
+        if (x < 0 or x >= FIELD_WIDTH
+                or y < 0 or y >= FIELD_HEIGHT):
+            return []
         return self.field[y][x]
 
     def get_objects(self) -> list:

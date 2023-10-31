@@ -21,6 +21,9 @@ BLUE = (0, 0, 255)
 # Object types
 TYPE_OBJECT, TYPE_WALL, TYPE_CREATURE, TYPE_FOOD = range(4)
 
+# Desires
+DESIRE_NONE, DESIRE_EAT, DESIRE_REP = range(3)
+
 # Actions
 ACTION_EAT = range(1)
 

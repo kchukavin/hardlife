@@ -13,7 +13,6 @@ class Object:
         self.hp = HP_DEFAULT
 
     def make_turn(self):
-        self.make_move()
         if self.hp <= 0:
             self.field.remove_object(self)
 

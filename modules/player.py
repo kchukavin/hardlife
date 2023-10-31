@@ -11,4 +11,6 @@ class Player(Creature):
         self.desire_to_move = direction
 
     def make_move(self):
+        self.try_to_eat()
+        self.try_to_reproduce(self.desire_to_move)
         self.try_to_move(self.desire_to_move)

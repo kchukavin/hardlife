@@ -92,4 +92,6 @@ while running:
     # После отрисовки всего, переворачиваем экран
     pygame.display.flip()
 
+pygame.mixer.stop()
+pygame.mixer.quit()
 pygame.quit()
